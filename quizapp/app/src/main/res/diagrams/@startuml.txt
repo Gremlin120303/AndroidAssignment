@@ -1,0 +1,109 @@
+@startuml
+
+package uk.ac.aber.dcs.cs31620.quizapp {
+
+class FinalScreen {
++FinalScreen(navController: NavHostController, quizViewModel: QuizViewModel)
++Button(text: String, onClick: () -> Unit)
+}
+
+class EditScreen {
++EditScreen(navController: NavHostController, quizViewModel: QuizViewModel)
++TextField(value: String, onValueChange: (String) -> Unit)
++Button(text: String, onClick: () -> Unit)
+}
+
+class ManageQuestionsScreen {
++ManageQuestionsScreen(navController: NavHostController, quizId: Int, quizViewModel: QuizViewModel)
++TextField(value: String, onValueChange: (String) -> Unit)
++Button(text: String, onClick: () -> Unit)
+}
+
+class QuizManagementScreen {
++QuizManagementScreen(navController: NavHostController, quizId: Int, quizViewModel: QuizViewModel)
++Button(text: String, onClick: () -> Unit)
+}
+
+class HomeScreen {
++HomeScreen(navController: NavHostController, quizViewModel: QuizViewModel)
++Button(text: String, onClick: () -> Unit)
++Card(title: String, description: String)
+}
+
+class QuizScreen {
++QuizScreen(navController: NavController, quizViewModel: QuizViewModel, quizId: Int)
++RadioButton(selected: Boolean, onClick: () -> Unit)
++Button(text: String, onClick: () -> Unit)
+}
+
+class NavGraph {
++NavGraph(navController: NavHostController, quizViewModel: QuizViewModel)
+}
+
+class NavRoute {
++HomeScreen
++EditScreen
++QuizManagementScreen
++ManageQuestionsScreen
++QuizScreen
++FinalScreen
+}
+
+class QuizViewModel {
++score: Int
++pastScores: List
++quizzes: State
++resetQuiz()
++addQuestionToQuiz(quizId: Int, question: Question)
++updateQuestionsForQuiz(quizId: Int, questions: List)
++updateQuiz(quizIndex: Int, title: String, subject: String, description: String)
++getQuizById(quizId: Int): Quiz?
+}
+
+class IconGroup {
++filledIcon: ImageVector
++outlineIcon: ImageVector
++label: String
+}
+
+class MainPageNavigationBar {
++MainPageNavigationBar(navController: NavHostController)
+-MainPageNavigationBarPreview()
++onItemSelected(screen: NavRoute, navController: NavHostController)
+}
+
+class MainPageTopAppBar {
++MainPageTopAppBar(onclick: () -> Unit)
+-MainPageTopAppBarPreview()
++setAppBarTitle(title: String)
+}
+
+class TopLevelScaffold {
++TopLevelScaffold(navController: NavHostController, content: (innerPadding: PaddingValues) -> Unit)
++setContent(innerPadding: PaddingValues)
+}
+
+NavGraph --> NavRoute
+NavGraph --> FinalScreen
+NavGraph --> EditScreen
+NavGraph --> ManageQuestionsScreen
+NavGraph --> QuizManagementScreen
+NavGraph --> HomeScreen
+NavGraph --> QuizScreen
+
+FinalScreen --> QuizViewModel
+EditScreen --> QuizViewModel
+ManageQuestionsScreen --> QuizViewModel
+QuizManagementScreen --> QuizViewModel
+HomeScreen --> QuizViewModel
+HomeScreen --> TopLevelScaffold
+QuizScreen --> QuizViewModel
+QuizScreen --> FinalScreen
+
+NavRoute --> NavHostController
+NavHostController --> NavGraph
+MainPageNavigationBar --> NavHostController
+TopLevelScaffold --> NavHostController
+}
+@enduml
+
